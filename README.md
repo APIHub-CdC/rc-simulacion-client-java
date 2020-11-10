@@ -1,6 +1,6 @@
-# rc-simulacion-client-java
+# rc-simulacion-client-java [![GitHub Packages](https://img.shields.io/badge/Maven&nbsp;package-Last&nbsp;version-lemon)](https://github.com/orgs/APIHub-CdC/packages?repo_name=rc-simulacion-client-java) 
 
-<p>Esta API simula el reporte del historial crediticio, el cumplimiento de pago de los compromisos que la persona ha adquirido con entidades financieras, no financieras e instituciones comerciales que dan crédito o participan en actividades afines al crédito.<br/><img src='https://www.circulodecredito.com.mx/assets/img/logocirculo.png' height='37' width='100'/></p><br/>
+<p>Esta API simula el reporte del historial crediticio, el cumplimiento de pago de los compromisos que la persona ha adquirido con entidades financieras, no financieras e instituciones comerciales que dan crédito o participan en actividades afines al crédito.<br/><img src='https://github.com/APIHub-CdC/imagenes-cdc/blob/master/circulo_de_credito-apihub.png' height='37' width='100'/></p><br/>
 
 ## Requisitos
 
@@ -38,54 +38,56 @@ Al iniciar sesión seguir os siguientes pasos:
 
 ### Paso 2. Capturar los datos de la petición
 
-Los siguientes datos a modificar se encuentran en ***src/test/java/io/apihub/client/api/ReporteDeCrditoApiTest.java***
+Los siguientes datos a modificar se encuentran en ***src/test/java/com/cdc/apihub/mx/RCCPM/simulacion/test/ApiTest.java***
 
 Es importante contar con el setUp() que se encargará de inicializar la url. Modificar la URL ***('the_url')***, como se muestra en el siguiente fragmento de código:
 
 ```java
-    private final ReporteDeCrditoApi api = new ReporteDeCrditoApi();
+private final RCApi api = new RCApi();
 
-    private ApiClient apiClient;
-    private String xApiKey = null;
-    @Before()
-    public void setUp() {
-        this.apiClient = api.getApiClient();
-         this.apiClient.setBasePath("the_url");
-         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .readTimeout(30, TimeUnit.SECONDS)
-                .build();
-        this.xApiKey = "XXXXXXXX";
-    }
+private ApiClient apiClient;
+private String xApiKey = "your_api_key";
+private String url = "the_url";
 
+@Before()
+public void setUp() {
+    this.apiClient = api.getApiClient();
+     this.apiClient.setBasePath(url);
+     OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build();
+     apiClient.setHttpClient(okHttpClient);
+}
 ```
 
-De igual manera, en el archivo **ReporteDeCrditoApiTest**, se deberá modificar el siguiente fragmento de código con los datos correspondientes:
+De igual manera, en el archivo **ApiTest**, se deberá modificar el siguiente fragmento de código con los datos correspondientes:
 
 ```java
 @Test
-    public void getFullReportTest() throws ApiException {
-        String xFullReport = "true";
-        PersonaPeticion body = new PersonaPeticion();
+public void getFullReportTest() throws ApiException {
+    String xFullReport = "true";
+    PersonaPeticion body = new PersonaPeticion();
 
-        body.setPrimerNombre("XXXXXXXX");
-        body.setApellidoPaterno("XXXXXXXX");
-        body.setApellidoMaterno("XXXXXXXX");
-        body.setFechaNacimiento("yyyy-MM-dd");
-        body.setRFC("XXXXXXXX");
-        body.setNacionalidad("XX");
+    body.setPrimerNombre("JUAN");
+    body.setApellidoPaterno("PRUEBA");
+    body.setApellidoMaterno("SIETE");
+    body.setFechaNacimiento("1980-01-07");
+    body.setRFC("PUAC800107");
+    body.setNacionalidad("MX");
 
-        DomicilioPeticion dom = new DomicilioPeticion();
-        dom.setDireccion("XXXXXXXX");
-        dom.setColoniaPoblacion("XXXXXXXX");
-        dom.setDelegacionMunicipio("XXXXXXXX");
-        dom.setCiudad("XXXXXXXX");
-        dom.setEstado(CatalogoEstados.DF);
-        dom.setCP("XXXXXXXX");
-        body.setDomicilio(dom);
+    DomicilioPeticion dom = new DomicilioPeticion();
+    dom.setDireccion("INSURGENTES SUR 1001");
+    dom.setColoniaPoblacion("INSURGENTES SUR");
+    dom.setDelegacionMunicipio("CIUDAD DE MEXICO");
+    dom.setCiudad("CIUDAD DE MEXICO");
+    dom.setEstado(CatalogoEstados.DF);
+    dom.setCP("11230");
+    body.setDomicilio(dom);
 
-        Respuesta response = api.getReporte(this.xApiKey, body, xFullReport);
-        Assert.assertTrue(response.getFolioConsulta() != null);
-    }
+    Respuesta response = api.getReporte(this.xApiKey, body, xFullReport);
+    logger.info("FullReportTest: "+response.toString());
+    Assert.assertTrue(response.getFolioConsulta() != null);
+}
 ```
 
 ### Paso 3. Ejecutar la prueba unitaria
