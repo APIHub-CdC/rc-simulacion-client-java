@@ -447,7 +447,7 @@ public class RCApi {
         return call;
     }
     
-    public okhttp3.Call getReporteCall(String xApiKey, PersonaPeticion request, String xFullReport, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getReporteCall(String xApiKey, PersonaPeticion request, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = request;
         String localVarPath = "";
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -455,8 +455,7 @@ public class RCApi {
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (xApiKey != null)
         localVarHeaderParams.put("x-api-key", apiClient.parameterToString(xApiKey));
-        if (xFullReport != null)
-        localVarHeaderParams.put("x-full-report", apiClient.parameterToString(xFullReport));
+      
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             "application/json"
@@ -483,7 +482,7 @@ public class RCApi {
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getReporteValidateBeforeCall(String xApiKey, PersonaPeticion request, String xFullReport, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getReporteValidateBeforeCall(String xApiKey, PersonaPeticion request, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         if (xApiKey == null) {
             throw new ApiException("Missing the required parameter 'xApiKey' when calling getReporte(Async)");
         }
@@ -491,22 +490,22 @@ public class RCApi {
             throw new ApiException("Missing the required parameter 'request' when calling getReporte(Async)");
         }
         
-        okhttp3.Call call = getReporteCall(xApiKey, request, xFullReport, progressListener, progressRequestListener);
+        okhttp3.Call call = getReporteCall(xApiKey, request, progressListener, progressRequestListener);
         return call;
     }
     
-    public Respuesta getReporte(String xApiKey, PersonaPeticion request, String xFullReport) throws ApiException {
-        ApiResponse<Respuesta> resp = getReporteWithHttpInfo(xApiKey, request, xFullReport);
+    public Respuesta getReporte(String xApiKey, PersonaPeticion request) throws ApiException {
+        ApiResponse<Respuesta> resp = getReporteWithHttpInfo(xApiKey, request);
         return resp.getData();
     }
     
-    public ApiResponse<Respuesta> getReporteWithHttpInfo(String xApiKey, PersonaPeticion request, String xFullReport) throws ApiException {
-        okhttp3.Call call = getReporteValidateBeforeCall(xApiKey, request, xFullReport, null, null);
+    public ApiResponse<Respuesta> getReporteWithHttpInfo(String xApiKey, PersonaPeticion request) throws ApiException {
+        okhttp3.Call call = getReporteValidateBeforeCall(xApiKey, request, null, null);
         Type localVarReturnType = new TypeToken<Respuesta>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
     
-    public okhttp3.Call getReporteAsync(String xApiKey, PersonaPeticion request, String xFullReport, final ApiCallback<Respuesta> callback) throws ApiException {
+    public okhttp3.Call getReporteAsync(String xApiKey, PersonaPeticion request, final ApiCallback<Respuesta> callback) throws ApiException {
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
         if (callback != null) {
@@ -523,7 +522,7 @@ public class RCApi {
                 }
             };
         }
-        okhttp3.Call call = getReporteValidateBeforeCall(xApiKey, request, xFullReport, progressListener, progressRequestListener);
+        okhttp3.Call call = getReporteValidateBeforeCall(xApiKey, request, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Respuesta>(){}.getType();
         apiClient.execute(call, localVarReturnType);
         return call;

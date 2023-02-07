@@ -65,7 +65,7 @@ De igual manera, en el archivo **ApiTest**, se deberá modificar el siguiente fr
 ```java
 @Test
 public void getFullReportTest() throws ApiException {
-    String xFullReport = "true";
+   
     PersonaPeticion body = new PersonaPeticion();
 
     body.setPrimerNombre("JUAN");
@@ -84,7 +84,7 @@ public void getFullReportTest() throws ApiException {
     dom.setCP("11230");
     body.setDomicilio(dom);
 
-    Respuesta response = api.getReporte(this.xApiKey, body, xFullReport);
+    Respuesta response = api.getReporte(this.xApiKey, body);
     logger.info("FullReportTest: "+response.toString());
     Assert.assertTrue(response.getFolioConsulta() != null);
 }
